@@ -25,26 +25,23 @@
 %--------------------------------------------------------------------------
 
 
-clear all
+
 close all
-cd('C:\Users\sbbk034\OneDrive - City, University of London\Documents\GitHub\PubMed-Data-Mining-And-Visualisation\TechniquesTrends')
+cd('C:\Users\sbbk034\OneDrive - City, University of London\Documents\GitHub\TumourMicroenvironmentModels\CODE')
 
 
 %% Find out the occurrence of different terms related to cancer AND pathology AND keywords:
-
+clear all
 allF                    = '%5BAll%20Fields%5D'; % all fields code
 %allF2                    = '%5BMeSH%20Terms%5D'; % all fields code
 basicURL                = 'https://www.ncbi.nlm.nih.gov/pubmed/?term=';
 
-yearsAnalysis           = 1980:2023;                            
-KW_TME            =  strcat('%20AND%20(tumor)%20AND%20(microenvironment)');
+yearsAnalysis           = 2000:2023;                            
+KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))%20AND%20(model)');
 KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2str(yearsAnalysis(end)),'[dp])');
-
-keywords2={  'macrophage','pathways','metabolism','immune','extracellular','modulation','endothelial',...
-           'therapeutic','signalling','oncogene','hypoxia','eosinophils','stem',...
-           'mitochondria','angiogenesis','fibroblast',''};               
+      
                        
-keywords ={'Bladder','Bowel','Brain','Breast','Cervical','Colon','Colorectal','Gastric','Intestinal','Kidney','Leukaemia','Liver','Lung','Lymphoma',...
+keywords ={'Bladder','Bone','Bowel','Brain','Breast','Cervical','Colon','Colorectal','Gastric','Intestinal','Kidney','Leukaemia','Liver','Lung','Lymphoma',...
     'Melanoma','Mouth','Ovarian','Pancreas','Pituitary','Prostate','Sarcoma','Stomach','Testicular','Thyroid','Uterus','Uterine',''};
 numKeywords = numel(keywords);                       
    
@@ -85,18 +82,18 @@ h20.XTick=1:numKeywords-1;
 h20.XTickLabel=keywords(index_all(end:-1:1));
 h20.XTickLabelRotation=270;
 h20.FontSize = 11;
-h20.YLabel.FontSize=16;
-h20.YLabel.String='Num. Entries';
+h20.YLabel.FontSize=14;
+h20.YLabel.String='Num. Entries in PubMed';
 h01.Position = [100  100  700  410];
-h20.Position     = [ 0.1    0.38    0.89   0.58];
+h20.Position     = [ 0.1    0.22    0.89   0.74];
 h20.FontName='Arial';
 h20.XLim=[0 numKeywords];
 h20.YLim=[0.5*min(entries_all) 1.2*max(entries_all)];
 h20.YScale = 'log';
 
 grid on
-filename = 'Fig_A_TrendsTechniques.png';
-%print('-dpng','-r400',filename)
+filename = '../Figures/Fig_C_Organs.png';
+print('-dpng','-r400',filename)
 
 %%
 
@@ -126,7 +123,8 @@ h1.YLabel.FontSize=14;
 h02.Position = [100  100  700  410];
 h1.Position     = [ 0.11    0.32    0.8605    0.65];
 h1.ZScale = 'linear';
-%colormap (colormap3(1:end-1,:))
+colormap3 = 0.8*rand(numKeywords-1,3);
+colormap (colormap3)
 for i = 1:numKeywords-1
     h1.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h1.XTickLabel{i}];
 end
