@@ -27,7 +27,7 @@
 
 clear all
 close all
-cd('C:\Users\sbbk034\OneDrive - City, University of London\Documents\GitHub\PubMed-Data-Mining-And-Visualisation\TechniquesTrends')
+cd('C:\Users\sbbk034\OneDrive - City, University of London\Documents\GitHub\TumourMicroenvironmentModels\CODE')
 
 
 %% Find out the occurrence of different terms related to cancer AND pathology AND keywords:
@@ -37,11 +37,12 @@ allF                    = '%5BAll%20Fields%5D'; % all fields code
 basicURL                = 'https://www.ncbi.nlm.nih.gov/pubmed/?term=';
 
 yearsAnalysis           = 1980:2023;                            
-KW_TME            =  strcat('%20AND%20(tumor)%20AND%20(microenvironment)');
+KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))');
 KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2str(yearsAnalysis(end)),'[dp])');
 
-keywords={  'Macrophage','Pathways','Metabolism','Immune','Extracellular','Modulation','Endothelial',...
-           'Therapeutic','Signalling','Oncogene','Hypoxia','Neutrophil','Stem','Crosstalk','Epigenetic','Migration','Metastasis',...
+keywords={ 'Macrophage','Pathways','Metabolism','Immune','Extracellular','Modulation','Endothelial',...
+           'Therapeutic','Signalling','Oncogene','Hypoxia','Neutrophil','Stem','Crosstalk','Epigenetic',...
+           'Migration','Metastasis',...
            'Mitochondria','Angiogenesis','Fibroblast',''};               
                        
 numKeywords = numel(keywords);                       
@@ -93,7 +94,7 @@ h20.YLim=[0.5*min(entries_all) 1.2*max(entries_all)];
 h20.YScale = 'log';
 
 grid on
-filename = 'Fig_A_TrendsTechniques.png';
+filename = 'Fig_B_KeyElements.png';
 %print('-dpng','-r400',filename)
 
 %%
