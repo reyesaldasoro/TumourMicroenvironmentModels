@@ -27,7 +27,7 @@
 
 close all
 
-cd('C:\Users\sbbk034\OneDrive - City, University of London\Documents\GitHub\PubMed-Data-Mining-And-Visualisation\TechniquesTrends')
+cd('C:\Users\sbbk034\OneDrive - City, University of London\Documents\GitHub\TumourMicroenvironmentModels\CODE')
 %%
 clear all
 
