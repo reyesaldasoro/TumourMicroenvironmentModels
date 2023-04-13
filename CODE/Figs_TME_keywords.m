@@ -25,13 +25,13 @@
 %--------------------------------------------------------------------------
 
 
-clear all
+
 close all
 cd('C:\Users\sbbk034\OneDrive - City, University of London\Documents\GitHub\TumourMicroenvironmentModels\CODE')
 
 
 %% Find out the occurrence of different terms related to cancer AND pathology AND keywords:
-
+clear all
 allF                    = '%5BAll%20Fields%5D'; % all fields code
 %allF2                    = '%5BMeSH%20Terms%5D'; % all fields code
 basicURL                = 'https://www.ncbi.nlm.nih.gov/pubmed/?term=';
@@ -42,8 +42,8 @@ KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2
 
 keywords={ 'Macrophage','Pathways','Metabolism','Immune','Extracellular','Modulation','Endothelial',...
            'Therapeutic','Signalling','Oncogene','Hypoxia','Neutrophil','Stem','Crosstalk','Epigenetic',...
-           'Migration','Metastasis',...
-           'Mitochondria','Angiogenesis','Fibroblast',''};               
+           'Migration','Metastasis','T cells','B cells','Target','Leukocytes',...
+           'Mitochondria','Angiogenesis','Fibroblast','Transcriptomics',''};               
                        
 numKeywords = numel(keywords);                       
    
@@ -74,7 +74,7 @@ end
 years         = str2num(cell2mat(years_tokens(1:2:end)));     
        
 %% Display as bar chart
-h01=figure(1);
+h01=figure(11);
 h20=gca;
 
 allEntries_KW = sum(entries_per_KW(1:end-1,:),2);
