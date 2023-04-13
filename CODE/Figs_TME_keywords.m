@@ -36,8 +36,8 @@ allF                    = '%5BAll%20Fields%5D'; % all fields code
 %allF2                    = '%5BMeSH%20Terms%5D'; % all fields code
 basicURL                = 'https://www.ncbi.nlm.nih.gov/pubmed/?term=';
 
-yearsAnalysis           = 1980:2023;                            
-KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))');
+yearsAnalysis           = 2000:2023;                            
+KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))%20AND%20(model)');
 KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2str(yearsAnalysis(end)),'[dp])');
 
 keywords={ 'Macrophage','Pathways','Metabolism','Immune','Extracellular','Modulation','Endothelial',...
@@ -74,7 +74,7 @@ end
 years         = str2num(cell2mat(years_tokens(1:2:end)));     
        
 %% Display as bar chart
-h01=figure(11);
+h01=figure(12);
 h20=gca;
 
 allEntries_KW = sum(entries_per_KW(1:end-1,:),2);
@@ -84,18 +84,18 @@ h20.XTick=1:numKeywords-1;
 h20.XTickLabel=keywords(index_all(end:-1:1));
 h20.XTickLabelRotation=270;
 h20.FontSize = 11;
-h20.YLabel.FontSize=16;
-h20.YLabel.String='Num. Entries';
+h20.YLabel.FontSize=14;
+h20.YLabel.String='Num. Entries in PubMed';
 h01.Position = [100  100  700  410];
-h20.Position     = [ 0.1    0.38    0.89   0.58];
+h20.Position     = [ 0.1    0.28    0.89   0.64];
 h20.FontName='Arial';
 h20.XLim=[0 numKeywords];
 h20.YLim=[0.5*min(entries_all) 1.2*max(entries_all)];
 h20.YScale = 'log';
 
 grid on
-filename = 'Fig_B_KeyElements.png';
-%print('-dpng','-r400',filename)
+filename = '../Figures/Fig_D_KeyElements.png';
+print('-dpng','-r400',filename)
 
 %%
 % 
@@ -125,7 +125,8 @@ h1.YLabel.FontSize=14;
 h02.Position = [100  100  700  410];
 h1.Position     = [ 0.11    0.32    0.8605    0.65];
 h1.ZScale = 'linear';
-%colormap (colormap3(1:end-1,:))
+colormap3 = 0.8*rand(numKeywords-1,3);
+colormap (colormap3)
 for i = 1:numKeywords-1
     h1.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h1.XTickLabel{i}];
 end
