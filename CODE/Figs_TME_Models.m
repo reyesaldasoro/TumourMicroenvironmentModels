@@ -39,11 +39,16 @@ yearsAnalysis           = 2000:2023;
 KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))');
 KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2str(yearsAnalysis(end)),'[dp])');
 
-keywords={  'Animal model','Mouse model','Rat model','Zebrafish model','Xenograft model','Organoid model',...%'model disease'
-            'In vitro model','In vivo model','3D model','Tumor on a chip model','Microfluidic model',...  
-            'Scoring model','Prediction model','Risk model','Integrative model','Mathematical model',...
-            'In silico model','Computational model','Deep Learning model','Machine Learning model','Prognostic model',''};
-         
+keywords={  'Animal model','Mouse model','Rat model','Zebrafish model','Xenograft model','Organoid model','In vivo model',...%'model disease'
+            'In vitro model','Tumor on a chip model','Microfluidic model',...  
+            '3D model',...
+            'Scoring model','Prediction model','Risk model','Integrative model','Mathematical model','Prognostic model',...
+            'In silico model','Computational model','Deep Learning model','Machine Learning model',''};
+colormap3 =[[0.8 0 0]+rand(7,3)/10;...
+            [0 0.6 0]+rand(3,3)/10;...
+            [0.5 0.5 0.5];...
+            [0 0.2 0.8]+rand(6,3)/10;...
+            [0.6 0.3 0.0]+rand(4,3)/10];         
                        
 numKeywords = numel(keywords);                       
    
@@ -99,7 +104,7 @@ filename = '../Figures/Fig_A_DifferentModels.png';
 print('-dpng','-r400',filename)
 
 %%
-
+%[entries_all,index_all]=sort(allEntries_KW,'descend');
 
 
 %numYears        = numel(years);
@@ -124,13 +129,13 @@ h1.ZLabel.FontSize=12;
 h1.YLabel.String='Years';
 h1.YLabel.FontSize=12;
 h02.Position = [100  100  700  410];
-h1.Position     = [ 0.11    0.41    0.8605    0.54];
+h1.Position     = [ 0.11    0.41    0.78    0.54];
 h1.ZScale = 'log';
 %colormap3 = 0.8*jet(numKeywords-1);
-colormap3 = 0.8*rand(numKeywords-1,3);
-colormap (colormap3)
+%colormap3 = 0.8*rand(numKeywords-1,3);
+colormap (colormap3(index_all(end:-1:1),:))
 for i = 1:numKeywords-1
-    h1.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h1.XTickLabel{i}];
+    h1.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(index_all(numKeywords-i),:)) h1.XTickLabel{i}];
 end
 %%
 filename = '../Figures/Fig_B_DifferentModels.png';
