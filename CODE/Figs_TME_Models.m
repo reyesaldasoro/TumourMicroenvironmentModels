@@ -35,7 +35,7 @@ allF                    = '%5BAll%20Fields%5D'; % all fields code
 %allF2                    = '%5BMeSH%20Terms%5D'; % all fields code
 basicURL                = 'https://www.ncbi.nlm.nih.gov/pubmed/?term=';
 
-yearsAnalysis           = 1980:2023;                            
+yearsAnalysis           = 2000:2023;                            
 KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))');
 KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2str(yearsAnalysis(end)),'[dp])');
 
@@ -74,7 +74,7 @@ end
 years         = str2num(cell2mat(years_tokens(1:2:end)));     
        
 %% Display as bar chart
-h01=figure(12);
+h01=figure(1);
 h20=gca;
 
 allEntries_KW = sum(entries_per_KW(1:end-1,:),2);
@@ -95,92 +95,95 @@ h20.YLim=[0.5*min(entries_all) 1.2*max(entries_all)];
 h20.YScale = 'log';
 
 grid on
-filename = 'Fig_A_DifferentModels.png';
-%print('-dpng','-r400',filename)
+filename = '../Figures/Fig_A_DifferentModels.png';
+print('-dpng','-r400',filename)
 
 %%
-% 
-% 
-% 
-% %numYears        = numel(years);
-% numYears        = round((val_year)-yearsAnalysis(1)-1);
-% initialYear     = 1;
-% h02              = figure(2);
-% h1              = gca;
-% h11             = ribbon(1+entries_per_KW(index_all,1:end-1)');
-% h1.YTick        = (1:5:numYears);
-% h1.YTickLabel   = years(1:5:end);
-% %h1.YLim         = [initialYear numYears+1];
-% h1.XTick        = (1:numKeywords);
-% h1.XTickLabel   = keywords(index_all);
-% %h1.XLim         = [1 numKeywords];
-% %h1.ZLim         = [0 max(max(entries_per_KW(1:end-1,initialYear:end)))];
-% h1.XTickLabelRotation=270;
-% h1.View         = [ 170 30];
-% h1.FontSize     = 10;
-% axis tight
-% h1.ZLabel.String='Num. Entries';
-% h1.ZLabel.FontSize=14;
-% h1.YLabel.String='Years';
-% h1.YLabel.FontSize=14;
-% h02.Position = [100  100  700  410];
-% h1.Position     = [ 0.11    0.32    0.8605    0.65];
-% h1.ZScale = 'linear';
-% %colormap (colormap3(1:end-1,:))
+
+
+
+%numYears        = numel(years);
+numYears        = round((val_year)-yearsAnalysis(1)-1);
+initialYear     = 1;
+h02              = figure(22);
+h1              = gca;
+h11             = ribbon(1+entries_per_KW(index_all(end:-1:1),1:end-1)');
+h1.YTick        = (1:5:numYears);
+h1.YTickLabel   = years(1:5:end);
+%h1.YLim         = [initialYear numYears+1];
+h1.XTick        = (1:numKeywords);
+h1.XTickLabel   = keywords(index_all(end:-1:1));
+%h1.XLim         = [1 numKeywords];
+%h1.ZLim         = [0 max(max(entries_per_KW(1:end-1,initialYear:end)))];
+h1.XTickLabelRotation=270;
+h1.View         = [ -355 15];
+h1.FontSize     = 10;
+axis tight
+h1.ZLabel.String='Num. Entries in PubMed';
+h1.ZLabel.FontSize=12;
+h1.YLabel.String='Years';
+h1.YLabel.FontSize=12;
+h02.Position = [100  100  700  410];
+h1.Position     = [ 0.11    0.41    0.8605    0.54];
+h1.ZScale = 'log';
+%colormap3 = 0.8*jet(numKeywords-1);
+colormap3 = 0.8*rand(numKeywords-1,3);
+colormap (colormap3)
+for i = 1:numKeywords-1
+    h1.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h1.XTickLabel{i}];
+end
+%%
+filename = '../Figures/Fig_B_DifferentModels.png';
+print('-dpng','-r400',filename)
+
+%% Obtain relative number of entries
+
+% First, relative to all entries of the year without the keyword
+entries_per_KW_rel  = entries_per_KW(1:numKeywords-1,:)./...
+                        (1+repmat(entries_per_KW(numKeywords,:),[numKeywords-1 1]));
+% Second, relative to the entries of the keywords                    
+entries_per_KW_rel2 = entries_per_KW(1:numKeywords-1,:)./...
+                        (repmat(sum(entries_per_KW(1:end-1,:)),[numKeywords-1 1]));
+
+%% Display as relative metrics
+h03              = figure(3);
+h2              = subplot(211);
+h22             = ribbon(entries_per_KW_rel2(index_all,:)');
+h2.YTick        = (1:5:numYears);
+h2.YTickLabel   = years(1:5:end);
+%h2.YLim         = [initialYear numYears+1];
+h2.XTick        = (1:numKeywords);
+h2.XTickLabel   = keywords(index_all);
+%h2.XLim         = [1 numKeywords];
+%h2.ZLim         = [0 max(max(entries_per_KW_rel2(:,initialYear:end)))];
+h2.XTickLabelRotation=270;
+h2.View         = [ 170   30];
+h2.FontSize     = 10;
+axis tight
+%h2.ZLabel.String='Entries/Keyword Total';
+h2.ZLabel.String='Rel. Num. Entries';
+h2.ZLabel.FontSize=14;
+h2.YLabel.String='Years';
+h2.YLabel.FontSize=14;
+%h03.Position = [100  100  700  410];
+
+h03.Position = [100  100  700  410];
+
+%h2.XTickLabel=[];
+h2.Position     = [ 0.11    0.32    0.8605    0.65];
+
+%h3.Position     = [ 0.11    0.26    0.8605    0.35];
+% h3.FontName='Arial';
+filename = 'Fig_B_TrendsTechniquesYears.png';
+%print('-dpng','-r400',filename)
+h2.YLabel.FontSize=12;
+% h3.YLabel.FontSize=12;
+h2.ZLabel.FontSize=11;
+% h3.ZLabel.FontSize=11;
+h2.ZLabel.Position = [ 28.5769    0.1747    0.1823];
+% h3.ZLabel.Position = [22.6    0.5034    0.0265];
+%%
 % for i = 1:numKeywords-1
-%     h1.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h1.XTickLabel{i}];
+%     h2.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h2.XTickLabel{i}];
 % end
-% %%
-% 
-% 
-% %% Obtain relative number of entries
-% 
-% % First, relative to all entries of the year without the keyword
-% entries_per_KW_rel  = entries_per_KW(1:numKeywords-1,:)./...
-%                         (1+repmat(entries_per_KW(numKeywords,:),[numKeywords-1 1]));
-% % Second, relative to the entries of the keywords                    
-% entries_per_KW_rel2 = entries_per_KW(1:numKeywords-1,:)./...
-%                         (repmat(sum(entries_per_KW(1:end-1,:)),[numKeywords-1 1]));
-% 
-% %% Display as relative metrics
-% h03              = figure(3);
-% h2              = subplot(211);
-% h22             = ribbon(entries_per_KW_rel2(index_all,:)');
-% h2.YTick        = (1:5:numYears);
-% h2.YTickLabel   = years(1:5:end);
-% %h2.YLim         = [initialYear numYears+1];
-% h2.XTick        = (1:numKeywords);
-% h2.XTickLabel   = keywords(index_all);
-% %h2.XLim         = [1 numKeywords];
-% %h2.ZLim         = [0 max(max(entries_per_KW_rel2(:,initialYear:end)))];
-% h2.XTickLabelRotation=270;
-% h2.View         = [ 170   30];
-% h2.FontSize     = 10;
-% axis tight
-% %h2.ZLabel.String='Entries/Keyword Total';
-% h2.ZLabel.String='Rel. Num. Entries';
-% h2.ZLabel.FontSize=14;
-% h2.YLabel.String='Years';
-% h2.YLabel.FontSize=14;
-% %h03.Position = [100  100  700  410];
-% 
-% h03.Position = [100  100  700  410];
-% 
-% %h2.XTickLabel=[];
-% h2.Position     = [ 0.11    0.32    0.8605    0.65];
-% 
-% %h3.Position     = [ 0.11    0.26    0.8605    0.35];
-% % h3.FontName='Arial';
-% filename = 'Fig_B_TrendsTechniquesYears.png';
-% %print('-dpng','-r400',filename)
-% h2.YLabel.FontSize=12;
-% % h3.YLabel.FontSize=12;
-% h2.ZLabel.FontSize=11;
-% % h3.ZLabel.FontSize=11;
-% h2.ZLabel.Position = [ 28.5769    0.1747    0.1823];
-% % h3.ZLabel.Position = [22.6    0.5034    0.0265];
-% %%
-% % for i = 1:numKeywords-1
-% %     h2.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h2.XTickLabel{i}];
-% % end
-% 
+
