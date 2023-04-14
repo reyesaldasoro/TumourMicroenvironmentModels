@@ -39,17 +39,18 @@ basicURL                = 'https://www.ncbi.nlm.nih.gov/pubmed/?term=';
 yearsAnalysis           = 2000:2023;                            
 KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))%20AND%20(model)');
 KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2str(yearsAnalysis(end)),'[dp])');
-
-keywords={ 'Macrophage','Pathways','Metabolism','Immune','Extracellular','Modulation','Endothelial',...
-           'Therapeutic','Signalling','Oncogene','Hypoxia','Neutrophil','Stem','Crosstalk','Epigenetic',...
-           'Migration','Metastasis','T cells','B cells','Target','Leukocytes',...
-           'Mitochondria','Angiogenesis','Fibroblast','Transcriptomics',''};               
+%%
+keywords={ 'Macrophage','Pathways','Metabolism','Immune cells','Extracellular Matrix','Modulation','Proliferation',...
+           'Therapeutic','Signalling','Oncogene','Hypoxia','Neutrophil','Stem cells','Crosstalk','Epigenetic',...
+           'Migration','Metastasis','T cells','B cells','Target','Leukocytes','Dendritic cells','Stromal cells',...
+           'Endothelial cells','Killer cells','Adipocytes','Stellate cells','Mitochondria','Angiogenesis',...
+           'Fibroblast','Transcriptomics','Inflammation','Chemoresistance','Invasion','Survival',''};               
                        
 numKeywords = numel(keywords);                       
    
 %% Iterate over pubmed
 %clear entries_per_KW
-for index_kw=1:numKeywords
+for index_kw=33:numKeywords
     kw=keywords{index_kw};
     
     urlAddress          = strcat(basicURL,'%20%28%22',strrep(kw,' ','%20'),'%22%29',KW_TME,KW_Dates);
@@ -87,7 +88,7 @@ h20.FontSize = 11;
 h20.YLabel.FontSize=14;
 h20.YLabel.String='Num. Entries in PubMed';
 h01.Position = [100  100  700  410];
-h20.Position     = [ 0.1    0.28    0.89   0.64];
+h20.Position     = [ 0.1    0.35    0.89   0.60];
 h20.FontName='Arial';
 h20.XLim=[0 numKeywords];
 h20.YLim=[0.5*min(entries_all) 1.2*max(entries_all)];
