@@ -39,16 +39,14 @@ yearsAnalysis           = 2000:2023;
 KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))');
 KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2str(yearsAnalysis(end)),'[dp])');
 
-keywords={  'Animal model','Mouse model','Rat model','Zebrafish model','Xenograft model','Organoid model','In vivo model',...%'model disease'
-            'In vitro model','Tumor on a chip model','Microfluidic model','3D Bioprinting'...  
-            '3D model',...
+keywords={  'Animal model','Mouse model','Rat model','Zebrafish model','Xenograft model','In vivo model','Mice model',...%'model disease'
+            'In vitro model','Tumor on a chip','Microfluidic model','3D Bioprinting','Organ on a chip','Organoid model','Spheroid model',...             %'3D model',...
             'Mechanistic Model','Scoring model','Prediction model','Risk model','Integrative model','Mathematical model','Prognostic model',...
-            'In silico model','Computational model','Deep Learning model','Machine Learning model',''};
+            'In silico model','Computational model','Deep Learning model','Machine Learning model','Convolutional Neural Network',''};
 colormap3 =[[0.8 0 0]+rand(7,3)/10;...
-            [0 0.6 0]+rand(4,3)/10;...
-            [0.5 0.5 0.5];...
+            [0 0.6 0]+rand(7,3)/10;...             % [0.5 0.5 0.5];...
             [0 0.2 0.8]+rand(7,3)/10;...
-            [0.6 0.3 0.0]+rand(4,3)/10];         
+            [0.6 0.3 0.0]+rand(5,3)/10];         
                        
 numKeywords = numel(keywords);                       
    
@@ -89,17 +87,24 @@ h21=bar(allEntries_KW(index_all(end:-1:1)));
 h20.XTick=1:numKeywords-1;
 h20.XTickLabel=keywords(index_all(end:-1:1));
 h20.XTickLabelRotation=270;
-h20.FontSize = 11;
+%h20.FontSize = 11;
+h20.FontSize=10;
 h20.YLabel.FontSize=14;
+
 h20.YLabel.String='Num. Entries in PubMed';
 h01.Position = [100  100  700  410];
-h20.Position     = [ 0.1    0.42    0.89   0.55];
+h20.Position     = [ 0.09    0.45    0.9   0.52];
 h20.FontName='Arial';
 h20.XLim=[0.25 numKeywords-0.25];
 h20.YLim=[0.5*min(entries_all) 1.2*max(entries_all)];
 h20.YScale = 'log';
 
 grid on
+ h21.FaceColor = 'flat';
+for i = 1:numKeywords-1
+    h21.CData(i,:) = colormap3(index_all(numKeywords-i),:);
+    h20.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(index_all(numKeywords-i),:)) h20.XTickLabel{i}];
+end
 filename = '../Figures/Fig_A_DifferentModels.png';
 print('-dpng','-r400',filename)
 
@@ -129,7 +134,7 @@ h1.ZLabel.FontSize=12;
 h1.YLabel.String='Years';
 h1.YLabel.FontSize=12;
 h02.Position = [100  100  700  410];
-h1.Position     = [ 0.11    0.41    0.78    0.54];
+h1.Position     = [ 0.11    0.47    0.78    0.50];
 h1.ZScale = 'log';
 %colormap3 = 0.8*jet(numKeywords-1);
 %colormap3 = 0.8*rand(numKeywords-1,3);
