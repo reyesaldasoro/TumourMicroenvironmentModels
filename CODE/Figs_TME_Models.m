@@ -108,7 +108,7 @@ end
 filename = '../Figures/Fig_A_DifferentModels.png';
 print('-dpng','-r400',filename)
 
-%%
+%% Display as ribbons per model
 %[entries_all,index_all]=sort(allEntries_KW,'descend');
 
 
@@ -144,6 +144,58 @@ for i = 1:numKeywords-1
 end
 %%
 filename = '../Figures/Fig_B_DifferentModels.png';
+%print('-dpng','-r400',filename)
+%% Display as ribbons per group 
+entries_per_group(1,:)   = sum(entries_per_KW(1:7,:));
+entries_per_group(2,:)   = sum(entries_per_KW(8:14,:));
+entries_per_group(3,:)   = sum(entries_per_KW(15:22,:));
+entries_per_group(4,:)   = sum(entries_per_KW(23:26,:));
+colormap4 =[[0.8 0 0]+rand(1,3)/10;...
+            [0 0.6 0]+rand(1,3)/10;...             % [0.5 0.5 0.5];...
+            [0 0.2 0.8]+rand(1,3)/10;...
+            [0.6 0.3 0.0]+rand(1,3)/10]; 
+
+h03              = figure(23);
+h3              = gca;
+
+h33             = ribbon(1+entries_per_group');
+
+h3.YTick        = (1:5:numYears);
+h3.YTickLabel   = years(1:5:end);
+%h3.YLim         = [initialYear numYears+1];
+
+
+h3.XTick        = (1:4);
+h3.XTickLabel   = {'Model organism','In vitro model','Mathematical model','Computational model'};
+%h3.XLim         = [1 numKeywords];
+%h3.ZLim         = [0 max(max(entries_per_KW(1:end-1,initialYear:end)))];
+h3.XTickLabelRotation=0;
+h3.View         = [ 63 31];
+h3.FontSize     = 10;
+axis tight
+h3.ZLabel.String='Num. Entries in PubMed';
+h3.ZLabel.FontSize=12;
+h3.YLabel.String='Years';
+h3.YLabel.FontSize=12;
+
+h03.Position = [100  100  700  410];
+h3.Position     = [ 0.1449    0.0973    0.8094    0.8727];
+h3.ZScale = 'log';
+%colormap3 = 0.8*jet(numKeywords-1);
+%colormap3 = 0.8*rand(numKeywords-1,3);
+colormap (colormap4)
+
+
+ for i = 1:4
+     h3.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap4(i,:)) h3.XTickLabel{i}];
+ end
+
+
+
+ h3.ZScale='log';
+
+%%
+filename = '../Figures/Fig_C_DifferentModels.png';
 print('-dpng','-r400',filename)
 
 %% Obtain relative number of entries
