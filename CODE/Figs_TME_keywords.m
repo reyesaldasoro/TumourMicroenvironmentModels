@@ -44,13 +44,13 @@ keywords={ 'Macrophage','Pathways','Metabolism','Immune cells','Extracellular Ma
            'Therapeutic','Signalling','Oncogene','Hypoxia','Neutrophil','Stem cells','Crosstalk','Epigenetic',...
            'Migration','Metastasis','T cells','B cells','Target','Leukocytes','Dendritic cells','Stromal cells',...
            'Endothelial cells','Killer cells','Adipocytes','Stellate cells','Mitochondria','Angiogenesis',...
-           'Fibroblast','Transcriptomics','Inflammation','Chemoresistance','Invasion','Survival',''};               
+           'Fibroblast','Transcriptomics','Inflammation','Chemoresistance','Invasion','Survival','Extracellular vesicle','Cytokine','Pre-metastatic niche',''};               
                        
 numKeywords = numel(keywords);                       
    
 %% Iterate over pubmed
 %clear entries_per_KW
-for index_kw=33:numKeywords
+for index_kw=1:numKeywords
     kw=keywords{index_kw};
     
     urlAddress          = strcat(basicURL,'%20%28%22',strrep(kw,' ','%20'),'%22%29',KW_TME,KW_Dates);
@@ -95,6 +95,8 @@ h20.YLim=[0.5*min(entries_all) 1.2*max(entries_all)];
 h20.YScale = 'log';
 
 grid on
+
+%%
 filename = '../Figures/Fig_D_KeyElements.png';
 print('-dpng','-r400',filename)
 
