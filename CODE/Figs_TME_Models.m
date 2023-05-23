@@ -36,17 +36,17 @@ allF                    = '%5BAll%20Fields%5D'; % all fields code
 basicURL                = 'https://www.ncbi.nlm.nih.gov/pubmed/?term=';
 
 yearsAnalysis           = 2000:2023;                            
-KW_TME            =  strcat('%20AND%20((%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))');
+KW_TME            =  strcat('%20AND%20((%22cancer%20microenvironment%22)%20OR%20(%22tumor%20microenvironment%22)%20OR%20(%22tumour%20microenvironment%22))');
 KW_Dates                = strcat('%20AND%20(',num2str(yearsAnalysis(1)),':',num2str(yearsAnalysis(end)),'[dp])');
 
 keywords={  'Animal model','Mouse model','Rat model','Zebrafish model','Xenograft model','In vivo model','Mice model',...%'model disease'
             'In vitro model','Tumor on a chip','Microfluidic model','3D Bioprinting','Organ on a chip','Organoid model','Spheroid model',...             %'3D model',...
             'Mechanistic Model','Scoring model','Prediction model','Risk model','Integrative model','Mathematical model','Prognostic model',...
-            'In silico model','Computational model','Deep Learning model','Machine Learning model','Convolutional Neural Network',''};
+            'In silico model','Computational model','Deep Learning model','Machine Learning model','Convolutional Neural Network','Agent-based model',''};
 colormap3 =[[0.8 0 0]+rand(7,3)/10;...
             [0 0.6 0]+rand(7,3)/10;...             % [0.5 0.5 0.5];...
             [0 0.2 0.8]+rand(7,3)/10;...
-            [0.6 0.3 0.0]+rand(5,3)/10];         
+            [0.6 0.3 0.0]+rand(6,3)/10];         
                        
 numKeywords = numel(keywords);                       
    
@@ -75,7 +75,17 @@ for index_kw=1:numKeywords
         end
 end
 years         = str2num(cell2mat(years_tokens(1:2:end)));     
-       
+      
+%%
+entries_per_group(1,:)   = sum(entries_per_KW(1:7,:));
+entries_per_group(2,:)   = sum(entries_per_KW(8:14,:));
+entries_per_group(3,:)   = sum(entries_per_KW(15:22,:));
+entries_per_group(4,:)   = sum(entries_per_KW(23:27,:));
+colormap4 =[[0.8 0 0]+rand(1,3)/10;...
+            [0 0.6 0]+rand(1,3)/10;...             % [0.5 0.5 0.5];...
+            [0 0.2 0.8]+rand(1,3)/10;...
+            [0.6 0.3 0.0]+rand(1,3)/10]; 
+totals_per_group          = sum(entries_per_group,2);
 %% Display as bar chart
 h01=figure(1);
 h20=gca;
@@ -105,6 +115,21 @@ for i = 1:numKeywords-1
     h21.CData(i,:) = colormap3(index_all(numKeywords-i),:);
     h20.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(index_all(numKeywords-i),:)) h20.XTickLabel{i}];
 end
+%%
+hLegend = annotation(h01,'textbox',...
+    [0.64 0.74 0.33 0.2],...
+    'String',{  strcat('Model Organisms:',32,32,32,32,32,32,32,32,32,num2str(totals_per_group(1))),...
+                strcat('Mathematical models:',32,32,32,num2str(totals_per_group(3))),...
+                strcat('In Vitro models:',32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,num2str(totals_per_group(2))),...
+                strcat('Computational models:',32,32,32,num2str(totals_per_group(4)))},...
+    'FitBoxToText','off');
+
+hBox_MO=annotation(h01,'rectangle',[0.91 0.89 0.05 0.03],'FaceColor',colormap3(1,:));
+hBox_Ma=annotation(h01,'rectangle',[0.91 0.85 0.05 0.03],'FaceColor',colormap3(8,:));
+hBox_IV=annotation(h01,'rectangle',[0.91 0.81 0.05 0.03],'FaceColor',colormap3(15,:));
+hBox_Co=annotation(h01,'rectangle',[0.91 0.77 0.05 0.03],'FaceColor',colormap3(22,:));
+
+%%
 filename = '../Figures/Fig_A_DifferentModels.png';
 print('-dpng','-r400',filename)
 
@@ -146,14 +171,7 @@ end
 filename = '../Figures/Fig_B_DifferentModels.png';
 %print('-dpng','-r400',filename)
 %% Display as ribbons per group 
-entries_per_group(1,:)   = sum(entries_per_KW(1:7,:));
-entries_per_group(2,:)   = sum(entries_per_KW(8:14,:));
-entries_per_group(3,:)   = sum(entries_per_KW(15:22,:));
-entries_per_group(4,:)   = sum(entries_per_KW(23:26,:));
-colormap4 =[[0.8 0 0]+rand(1,3)/10;...
-            [0 0.6 0]+rand(1,3)/10;...             % [0.5 0.5 0.5];...
-            [0 0.2 0.8]+rand(1,3)/10;...
-            [0.6 0.3 0.0]+rand(1,3)/10]; 
+
 
 h03              = figure(23);
 h3              = gca;
