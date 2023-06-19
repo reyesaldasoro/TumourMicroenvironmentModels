@@ -55,7 +55,7 @@ numKeywords2 = numel(keywords2);
 %% Iterate over pubmed
 %clear entries_per_KW
 % First Loop, over the Models:
-for index_kw=1:numKeywords
+for index_kw=1%:numKeywords
     kw=keywords{index_kw};
     
     urlAddress          = strcat(basicURL,'%20%28%22',strrep(kw,' ','%20'),'%22%29',KW_TME,KW_Dates);
@@ -80,7 +80,7 @@ for index_kw=1:numKeywords
         location_init       = strfind(PubMedURL,'totalResults: parseInt("');
         location_fin        = strfind(PubMedURL,'itemsPerPage: parseInt("');
         PubMedURL3          = strrep(PubMedURL(location_init+24:location_fin-15),' ','');
-        totEntries_per_KW(index_kw)   = str2double(PubMedURL3);
+        totEntries_per_KW(index_kw,1)   = str2double(PubMedURL3);
         
         % second loop over the organs
 
@@ -96,8 +96,44 @@ for index_kw=1:numKeywords
 
 
 end
-years         = str2num(cell2mat(years_tokens(1:2:end)));     
+%years         = str2num(cell2mat(years_tokens(1:2:end)));     
       
+%%
+totEntries_per_KW2=totEntries_per_KW(1:end-1,2:end-1);
+totEntries_per_KW2(isnan( totEntries_per_KW2))=0;
+
+[~,index_model]=sort(sum(totEntries_per_KW2,2),'descend');
+[~,index_organ]=sort(sum(totEntries_per_KW2,1),'descend');
+%%
+figure
+h1=gca;
+hB= bar3(2+totEntries_per_KW2(index_model,index_organ)');
+axis tight
+
+h1.XTick=1:numKeywords;
+h1.XTickLabel=keywords(index_model);
+h1.XTickLabelRotation=270;
+h1.YTick=1:numKeywords2;
+h1.YTickLabel=keywords2(index_organ);
+h1.YTickLabelRotation=270;
+ colormap(colormap3(index_model,:))
+
+%%
+figure
+h1=gca;
+hB= bar3(1+totEntries_per_KW2(:,:)');
+axis tight
+
+h1.XTick=1:numKeywords;
+h1.XTickLabel=keywords(:);
+h1.XTickLabelRotation=270;
+h1.YTick=1:numKeywords2;
+h1.YTickLabel=keywords2(:);
+h1.YTickLabelRotation=270;
+
+
+
+
 %%
 entries_per_group(1,:)   = sum(entries_per_KW(1:7,:));
 entries_per_group(2,:)   = sum(entries_per_KW(8:14,:));
