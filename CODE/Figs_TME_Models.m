@@ -76,16 +76,7 @@ for index_kw=1:numKeywords
 end
 years         = str2num(cell2mat(years_tokens(1:2:end)));     
       
-%%
-entries_per_group(1,:)   = sum(entries_per_KW(1:7,:));
-entries_per_group(2,:)   = sum(entries_per_KW(8:14,:));
-entries_per_group(3,:)   = sum(entries_per_KW(15:22,:));
-entries_per_group(4,:)   = sum(entries_per_KW(23:27,:));
-colormap4 =[[0.8 0 0]+rand(1,3)/10;...
-            [0 0.6 0]+rand(1,3)/10;...             % [0.5 0.5 0.5];...
-            [0 0.2 0.8]+rand(1,3)/10;...
-            [0.6 0.3 0.0]+rand(1,3)/10]; 
-totals_per_group          = sum(entries_per_group,2);
+
 %% Display as bar chart
 h01=figure(1);
 h20=gca;
@@ -125,8 +116,8 @@ hLegend = annotation(h01,'textbox',...
     'FitBoxToText','off');
 
 hBox_MO=annotation(h01,'rectangle',[0.91 0.89 0.05 0.03],'FaceColor',colormap3(1,:));
-hBox_Ma=annotation(h01,'rectangle',[0.91 0.85 0.05 0.03],'FaceColor',colormap3(8,:));
-hBox_IV=annotation(h01,'rectangle',[0.91 0.81 0.05 0.03],'FaceColor',colormap3(15,:));
+hBox_Ma=annotation(h01,'rectangle',[0.91 0.85 0.05 0.03],'FaceColor',colormap3(15,:));
+hBox_IV=annotation(h01,'rectangle',[0.91 0.81 0.05 0.03],'FaceColor',colormap3(8,:));
 hBox_Co=annotation(h01,'rectangle',[0.91 0.77 0.05 0.03],'FaceColor',colormap3(22,:));
 
 %%
@@ -172,11 +163,21 @@ filename = '../Figures/Fig_B_DifferentModels.png';
 %print('-dpng','-r400',filename)
 %% Display as ribbons per group 
 
+entries_per_group(1,:)   = sum(entries_per_KW(1:7,:));
+entries_per_group(3,:)   = sum(entries_per_KW(8:14,:));
+entries_per_group(2,:)   = sum(entries_per_KW(15:22,:));
+entries_per_group(4,:)   = sum(entries_per_KW(23:27,:));
+colormap4 =[[0.8 0 0]+rand(1,3)/10;...
+            [0 0.2 0.8]+rand(1,3)/10;...             % [0.5 0.5 0.5];...
+            [0 0.6 0.0]+rand(1,3)/10;...
+            [0.6 0.3 0.0]+rand(1,3)/10]; 
+totals_per_group          = sum(entries_per_group,2);
+%%
 
 h03              = figure(23);
 h3              = gca;
 
-h33             = ribbon(1+entries_per_group');
+h33             = ribbon(1+entries_per_group(:,1:end-1)');
 
 h3.YTick        = (1:5:numYears);
 h3.YTickLabel   = years(1:5:end);
@@ -184,11 +185,12 @@ h3.YTickLabel   = years(1:5:end);
 
 
 h3.XTick        = (1:4);
-h3.XTickLabel   = {'Model organism','In vitro model','Mathematical model','Computational model'};
+h3.XTickLabel   = {'Model organism','Mathematical model','In vitro model','Computational model'};
 %h3.XLim         = [1 numKeywords];
 %h3.ZLim         = [0 max(max(entries_per_KW(1:end-1,initialYear:end)))];
 h3.XTickLabelRotation=0;
-h3.View         = [ 63 31];
+h3.View         = [ 83 10];
+%h3.View         = [ 63 31];
 h3.FontSize     = 10;
 axis tight
 h3.ZLabel.String='Num. Entries in PubMed';
@@ -197,7 +199,7 @@ h3.YLabel.String='Years';
 h3.YLabel.FontSize=12;
 
 h03.Position = [100  100  700  410];
-h3.Position     = [ 0.1449    0.0973    0.8094    0.8727];
+h3.Position     = [ 0.179    0.0973    0.8094    0.8727];
 h3.ZScale = 'log';
 %colormap3 = 0.8*jet(numKeywords-1);
 %colormap3 = 0.8*rand(numKeywords-1,3);
