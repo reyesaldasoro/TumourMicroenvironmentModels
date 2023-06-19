@@ -52,7 +52,7 @@ numKeywords = numel(keywords);
    
 %% Iterate over pubmed
 %clear entries_per_KW
-for index_kw=1%:numKeywords
+for index_kw=1:numKeywords
     kw=keywords{index_kw};
     
     urlAddress          = strcat(basicURL,'%20%28%22',strrep(kw,' ','%20'),'%22%29',KW_TME,KW_Dates);
