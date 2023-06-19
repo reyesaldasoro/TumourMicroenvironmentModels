@@ -92,6 +92,8 @@ h20.YLim=[0.5*min(entries_all) 1.2*max(entries_all)];
 h20.YScale = 'log';
 
 grid on
+
+%%
 filename = '../Figures/Fig_C_Organs.png';
 print('-dpng','-r400',filename)
 
