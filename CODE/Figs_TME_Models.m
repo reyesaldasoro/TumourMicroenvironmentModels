@@ -199,7 +199,7 @@ h3.YLabel.String='Years';
 h3.YLabel.FontSize=12;
 
 h03.Position = [100  100  700  410];
-h3.Position     = [ 0.179    0.0973    0.8094    0.8727];
+h3.Position     = [ 0.179    0.12    0.8094    0.85];
 h3.ZScale = 'log';
 %colormap3 = 0.8*jet(numKeywords-1);
 %colormap3 = 0.8*rand(numKeywords-1,3);
