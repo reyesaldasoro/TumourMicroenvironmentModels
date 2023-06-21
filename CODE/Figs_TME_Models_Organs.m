@@ -105,8 +105,9 @@ totEntries_per_KW2(isnan( totEntries_per_KW2))=0;
 [~,index_model]=sort(sum(totEntries_per_KW2,2),'descend');
 [~,index_organ]=sort(sum(totEntries_per_KW2,1),'descend');
 %%
-figure
-h1=gca;
+h01=figure(7);
+h01.Position = [100  100  700  410];
+h1 = subplot(1,1,1);
 hB= bar3(2+totEntries_per_KW2(index_model,index_organ)');
 axis tight
 
@@ -116,7 +117,44 @@ h1.XTickLabelRotation=270;
 h1.YTick=1:numKeywords2;
 h1.YTickLabel=keywords2(index_organ);
 h1.YTickLabelRotation=270;
- colormap(colormap3(index_model,:))
+colormap(colormap3(index_model,:))
+axis normal
+
+h1.View=[+48 30];
+h1.Position     = [ 0.05    0.34    0.92   0.65];
+h1.FontSize = 8.7;
+%%
+
+filename = '../Figures/Fig_F_ModelsOrgans_1.png';
+print('-dpng','-r400',filename)
+%%
+
+h01=figure(8);
+h01.Position = [100  100  700  410];
+h1 = subplot(1,1,1);
+hB= bar3(2+totEntries_per_KW2(index_model,index_organ)');
+%axis tight
+
+h1.XTick=1:numKeywords;
+h1.XTickLabel=keywords(index_model);
+h1.XTickLabelRotation=270;
+h1.YTick=1:numKeywords2;
+h1.YTickLabel=keywords2(index_organ);
+h1.YTickLabelRotation=270;
+colormap(colormap3(index_model,:))
+axis normal
+
+h1.View=[+48 30];
+
+
+h1.FontSize = 10.7;
+h1.Position     = [ 0.06    0.26    0.92   0.74];
+ h1.XLim=[0.6 11.5];
+ h1.YLim=[0.6 9.5];
+ h1.ZLim= [0   485];
+%%
+filename = '../Figures/Fig_G_ModelsOrgans_2.png';
+print('-dpng','-r400',filename)
 
 %%
 figure
