@@ -44,7 +44,8 @@ keywords={ 'Macrophage','Pathways','Metabolism','Immune cells','Extracellular Ma
            'Therapeutic','Signalling','Oncogene','Hypoxia','Neutrophil','Stem cells','Crosstalk','Epigenetic',...
            'Migration','Metastasis','T cells','B cells','Target','Leukocytes','Dendritic cells','Stromal cells',...
            'Endothelial cells','Killer cells','Adipocytes','Stellate cells','Mitochondria','Angiogenesis',...
-           'Fibroblast','Transcriptomics','Inflammation','Chemoresistance','Invasion','Survival','Extracellular vesicle','Cytokine','Pre-metastatic niche',''};               
+           'Fibroblast','Transcriptomics','Inflammation','Chemoresistance','Invasion','Survival','Extracellular vesicle','Cytokine','Pre-metastatic niche',...
+           'Focal adhesion','Kinase','Integrin','Macroenvironment','Blood vessels','Anti-vascular',''};               
                        
 numKeywords = numel(keywords);                       
    
@@ -75,7 +76,7 @@ end
 years         = str2num(cell2mat(years_tokens(1:2:end)));     
        
 %% Display as bar chart
-h01=figure(12);
+h01=figure(13);
 h20=gca;
 
 allEntries_KW = sum(entries_per_KW(1:end-1,:),2);
@@ -148,7 +149,7 @@ entries_per_KW_rel2 = entries_per_KW(1:numKeywords-1,:)./...
 %% Display as relative metrics
 h03              = figure(3);
 h2              = subplot(211);
-h22             = ribbon(entries_per_KW_rel2(index_all,11:end)');
+h22             = ribbon(entries_per_KW_rel2(index_all,1:end)');
 h2.YTick        = (1:5:numYears);
 h2.YTickLabel   = years(1:5:end);
 %h2.YLim         = [initialYear numYears+1];
@@ -183,7 +184,9 @@ h2.ZLabel.FontSize=11;
 h2.ZLabel.Position = [ 28.5769    0.1747    0.1823];
 % h3.ZLabel.Position = [22.6    0.5034    0.0265];
 %%
-% for i = 1:numKeywords-1
-%     h2.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h2.XTickLabel{i}];
-% end
-
+ for i = 1:numKeywords-1
+     h2.XTickLabel{i} = [sprintf('\\color[rgb]{%f,%f,%f}%s',colormap3(i,:)) h2.XTickLabel{i}];
+ end
+%%
+h2.XLim = [6.5 38.5];
+h2.ZLim = [ 0 0.207136272863586];
