@@ -98,7 +98,7 @@ h20.YScale = 'log';
 grid on
 
 %%
-filename = '../Figures/Fig_D_KeyElements.png';
+filename = '../Figures/Fig_3A_KeyElements.png';
 print('-dpng','-r400',filename)
 
 %%
